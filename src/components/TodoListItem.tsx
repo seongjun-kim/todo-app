@@ -1,8 +1,20 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/AntDesign";
+export interface TodoListItemProps {
+  id: string;
+  textValue: string;
+  checked: boolean;
+  onRemove: (id: string) => void;
+}
 
-const TodoListItem = () => {
+export const TodoListItem: React.FunctionComponent<TodoListItemProps> = ({
+  id,
+  textValue,
+  checked,
+  onRemove,
+}) => {
+  const handleRemove = () => onRemove(id);
   return (
     <View style={styles.container}>
       <TouchableOpacity>
@@ -10,8 +22,8 @@ const TodoListItem = () => {
           <Icon name="circledowno" size={30} color="green" />
         </View>
       </TouchableOpacity>
-      <Text style={[styles.text, styles.strikeText]}>item text</Text>
-      <TouchableOpacity style={styles.buttonContainer}>
+      <Text style={[styles.text, styles.strikeText]}>{textValue}</Text>
+      <TouchableOpacity style={styles.buttonContainer} onPress={handleRemove}>
         <Text>
           <Icon name="delete" size={30} color="red" />
         </Text>
@@ -57,5 +69,3 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
 });
-
-export default TodoListItem;

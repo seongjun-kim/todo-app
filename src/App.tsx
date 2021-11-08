@@ -1,16 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import { SafeAreaView, StyleSheet, View, Text } from "react-native";
 
 import InputHeader from "./components/InputHeader";
 import TodoList from "./components/TodoList";
+import { TodoListItemProps } from "./components/TodoListItem";
 
 const App = () => {
+  const [todoItems, setTodoItems] = useState<TodoListItemProps[]>([]);
+
+  const removeTodo = (id: string) => {
+    setTodoItems(todoItems.filter((item) => item.id !== id));
+  };
+  const addTodo = (text: string) => {
+    setTodoItems([
+      ...todoItems,
+      {
+        id: Math.random().toString(),
+        textValue: text,
+        checked: false,
+        onRemove: () => {},
+      },
+    ]);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Todo</Text>
       <View style={styles.body}>
-        <InputHeader />
-        <TodoList />
+        <InputHeader onPressAddButton={addTodo} />
+        <TodoList data={todoItems} onPressRemoveButton={removeTodo} />
       </View>
     </SafeAreaView>
   );

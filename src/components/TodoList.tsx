@@ -1,19 +1,24 @@
 import React from "react";
-import { StyleSheet, ScrollView } from "react-native";
-import TodoListItem from "./TodoListItem";
+import { FlatList } from "react-native";
+import { TodoListItem, TodoListItemProps } from "./TodoListItem";
 
-const TodoList = () => {
-  return (
-    <ScrollView contentContainerStyle={styles.listContainer}>
-      <TodoListItem />
-    </ScrollView>
-  );
+type TodoListProps = {
+  data: TodoListItemProps[];
+  onPressRemoveButton: (id: string) => void;
 };
 
-const styles = StyleSheet.create({
-  listContainer: {
-    alignItems: "center",
-  },
-});
+export const TodoList = ({ data, onPressRemoveButton }: TodoListProps) => {
+  const renderItem = ({ item }: { item: TodoListItemProps }) => (
+    <TodoListItem {...item} onRemove={onPressRemoveButton} />
+  );
+
+  return (
+    <FlatList
+      data={data}
+      renderItem={renderItem}
+      keyExtractor={(item: TodoListItemProps) => item.id}
+    />
+  );
+};
 
 export default TodoList;
