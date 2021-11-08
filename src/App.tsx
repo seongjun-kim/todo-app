@@ -27,6 +27,13 @@ const App = () => {
       )
     );
   };
+  const modifyTodo = (id: string, text: string) => {
+    setTodoItems(
+      todoItems.map((item) =>
+        item.id === id ? { ...item, textValue: text } : item
+      )
+    );
+  };
   const removeTodo = (id: string) => {
     setTodoItems(todoItems.filter((item) => item.id !== id));
   };
@@ -38,6 +45,7 @@ const App = () => {
         textValue: text,
         checked: false,
         onRemove: () => {},
+        onModify: () => {},
         onToggle: () => {},
       },
     ]);
@@ -52,6 +60,7 @@ const App = () => {
           data={todoItems}
           onPressRemoveButton={removeTodo}
           onPressToggleButton={checkTodo}
+          onTextModified={modifyTodo}
         />
       </View>
     </SafeAreaView>

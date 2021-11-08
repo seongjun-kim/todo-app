@@ -1,11 +1,18 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  TextInput,
+} from "react-native";
 import Icon from "react-native-vector-icons/AntDesign";
 export interface TodoListItemProps {
   id: string;
   textValue: string;
   checked: boolean;
   onRemove: (id: string) => void;
+  onModify: (id: string, text: string) => void;
   onToggle: (id: string) => void;
 }
 
@@ -14,10 +21,15 @@ export const TodoListItem: React.FunctionComponent<TodoListItemProps> = ({
   textValue,
   checked,
   onRemove,
+  onModify,
   onToggle,
 }) => {
   const handleRemove = () => onRemove(id);
   const handleToggle = () => onToggle(id);
+  const handleModify = (newTextValue: string) => {
+    onModify(id, newTextValue);
+  };
+
   return (
     <View style={styles.container}>
       <TouchableOpacity onPressOut={handleToggle}>
@@ -29,12 +41,13 @@ export const TodoListItem: React.FunctionComponent<TodoListItemProps> = ({
           <View style={styles.circle} />
         )}
       </TouchableOpacity>
-
-      <Text
+      <TextInput
         style={[styles.text, checked ? styles.strikeText : styles.unstrikeText]}
-      >
-        {textValue}
-      </Text>
+        autoCorrect={false}
+        value={textValue}
+        onChangeText={handleModify}
+      />
+
       <TouchableOpacity style={styles.buttonContainer} onPress={handleRemove}>
         <Text>
           <Icon name="delete" size={30} color="red" />
