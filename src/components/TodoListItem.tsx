@@ -48,10 +48,10 @@ const styles = StyleSheet.create({
     width: 100,
   },
   circle: {
-    width: 20,
-    height: 20,
+    width: 30,
+    height: 30,
     borderRadius: 15,
-    borderColor: "blue",
+    borderColor: "#ccc",
     borderWidth: 2,
     marginHorizontal: 10,
   },
