@@ -6,6 +6,7 @@ export interface TodoListItemProps {
   textValue: string;
   checked: boolean;
   onRemove: (id: string) => void;
+  onToggle: (id: string) => void;
 }
 
 export const TodoListItem: React.FunctionComponent<TodoListItemProps> = ({
@@ -13,16 +14,27 @@ export const TodoListItem: React.FunctionComponent<TodoListItemProps> = ({
   textValue,
   checked,
   onRemove,
+  onToggle,
 }) => {
   const handleRemove = () => onRemove(id);
+  const handleToggle = () => onToggle(id);
   return (
     <View style={styles.container}>
-      <TouchableOpacity>
-        <View style={styles.completeCircle}>
-          <Icon name="circledowno" size={30} color="green" />
-        </View>
+      <TouchableOpacity onPressOut={handleToggle}>
+        {checked ? (
+          <View style={styles.completeCircle}>
+            <Icon name="circledowno" size={30} color="green" />
+          </View>
+        ) : (
+          <View style={styles.circle} />
+        )}
       </TouchableOpacity>
-      <Text style={[styles.text, styles.strikeText]}>{textValue}</Text>
+
+      <Text
+        style={[styles.text, checked ? styles.strikeText : styles.unstrikeText]}
+      >
+        {textValue}
+      </Text>
       <TouchableOpacity style={styles.buttonContainer} onPress={handleRemove}>
         <Text>
           <Icon name="delete" size={30} color="red" />

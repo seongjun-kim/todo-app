@@ -8,6 +8,13 @@ import { TodoListItemProps } from "./components/TodoListItem";
 const App = () => {
   const [todoItems, setTodoItems] = useState<TodoListItemProps[]>([]);
 
+  const checkTodo = (id: string) => {
+    setTodoItems(
+      todoItems.map((item) =>
+        item.id === id ? { ...item, checked: !item.checked } : item
+      )
+    );
+  };
   const removeTodo = (id: string) => {
     setTodoItems(todoItems.filter((item) => item.id !== id));
   };
@@ -19,6 +26,7 @@ const App = () => {
         textValue: text,
         checked: false,
         onRemove: () => {},
+        onToggle: () => {},
       },
     ]);
   };
@@ -28,7 +36,11 @@ const App = () => {
       <Text style={styles.title}>Todo</Text>
       <View style={styles.body}>
         <InputHeader onPressAddButton={addTodo} />
-        <TodoList data={todoItems} onPressRemoveButton={removeTodo} />
+        <TodoList
+          data={todoItems}
+          onPressRemoveButton={removeTodo}
+          onPressToggleButton={checkTodo}
+        />
       </View>
     </SafeAreaView>
   );
