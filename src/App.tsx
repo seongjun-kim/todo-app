@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView, StyleSheet, View, Text } from "react-native";
+import AsyncStorage from "@react-native-community/async-storage";
 
 import InputHeader from "./components/InputHeader";
 import TodoList from "./components/TodoList";
@@ -7,6 +8,17 @@ import { TodoListItemProps } from "./components/TodoListItem";
 
 const App = () => {
   const [todoItems, setTodoItems] = useState<TodoListItemProps[]>([]);
+
+  useEffect(() => {
+    AsyncStorage.getItem("savedTodoItems").then((data) => {
+      const savedTodoItems = JSON.parse(data || "[]");
+      setTodoItems(savedTodoItems);
+    });
+  }, []);
+
+  useEffect(() => {
+    AsyncStorage.setItem("savedTodoItems", JSON.stringify(todoItems));
+  }, [todoItems]);
 
   const checkTodo = (id: string) => {
     setTodoItems(
